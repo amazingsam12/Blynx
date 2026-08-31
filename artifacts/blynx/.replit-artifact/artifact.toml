@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Blynx"
+description = "A modern green mobility and local delivery app for discovering businesses, ordering products, tracking deliveries, messaging, and managing business operations."
+version = "1.0.0"
+id = "artifacts/blynx"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18856
+
+[services.development]
+run = "pnpm --filter @workspace/blynx run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/blynx", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/blynx/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18856"
+BASE_PATH = "/"
